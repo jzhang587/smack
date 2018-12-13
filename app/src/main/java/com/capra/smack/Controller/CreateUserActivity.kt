@@ -1,9 +1,11 @@
-package com.capra.smack
+package com.capra.smack.Controller
 
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.capra.smack.R
+import com.capra.smack.Services.AuthService
 import kotlinx.android.synthetic.main.activity_create_user.*
 import java.util.*
 
@@ -45,7 +47,11 @@ class CreateUserActivity : AppCompatActivity() {
 
     }
     fun createUserButtonClicked(view:View){
-        
+        AuthService.registerUser(this, "j@j.com", "123456") { complete ->
+            if (complete) {
+
+            }
+        }
 
     }
 }
