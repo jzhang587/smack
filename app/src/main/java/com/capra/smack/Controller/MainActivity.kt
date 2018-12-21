@@ -52,6 +52,9 @@ class MainActivity : AppCompatActivity(){
         toggle.syncState()
         hideKeyboard()
 
+        if (App.prefs.isLoggedIn) {
+            AuthService.findUserByEmail(this) {}
+        }
     }
 
     override fun onResume() {
@@ -73,7 +76,7 @@ class MainActivity : AppCompatActivity(){
 
     private val userDataChangeReceiver = object: BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (AuthService.isLoggedIn) {
+            if (App.prefs.isLoggedIn) {
                 userNameNavHeader.text = UserDataService.name
                 userEmailNavHeader.text = UserDataService.email
                 val resourceId = resources.getIdentifier(UserDataService.avatarName, "drawable", packageName)
@@ -82,7 +85,7 @@ class MainActivity : AppCompatActivity(){
                 loginButtonNavHeader.text = "Logout"
 
 
-                MessageService.getChannels(context) {complete ->
+                MessageService.getChannels(context!!) { complete ->
                     if (complete) {
                         channelAdapter.notifyDataSetChanged()
 
@@ -102,7 +105,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun loginButtonNavClick(view: View){
-        if (AuthService.isLoggedIn) {
+        if (App.prefs.isLoggedIn) {
             UserDataService.logout()
             userNameNavHeader.text = ""
             userEmailNavHeader.text = ""
@@ -116,7 +119,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
     fun addChannelButtonClicked(view: View){
-        if (AuthService.isLoggedIn) {
+        if (App.prefs.isLoggedIn) {
             val builder = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.add_channel_dialog, null)
 
